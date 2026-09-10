@@ -1,0 +1,22 @@
+{
+  "name": "music-playlist-checker",
+  "version": "1.0.0",
+  "description": "Compare a Spotify playlist export against your local music library to see what's missing.",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx --yes serve ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/music-playlist-checker.git"
+  },
+  "keywords": [
+    "spotify",
+    "music",
+    "playlist",
+    "library",
+    "checker"
+  ],
+  "author": "",
+  "license": "MIT"
+}

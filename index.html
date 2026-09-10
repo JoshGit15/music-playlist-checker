@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+
+    <title>Music Playlist Checker</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">♫</div>
+
+            <div>
+                <h2>Playlist Checker</h2>
+                <span>LOCAL MUSIC TOOLS</span>
+            </div>
+        </div>
+
+        <nav>
+            <a href="#" class="nav-item active">
+                <span>⌁</span>
+                Library Check
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            Music Playlist Checker
+            <small>v1.0</small>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <!-- HEADER -->
+        <header class="header">
+
+            <div>
+                <div class="eyebrow">LIBRARY CHECK</div>
+
+                <h1>Music Playlist Checker</h1>
+
+                <p>
+                    Compare your Spotify playlist against your local music library.
+                </p>
+            </div>
+
+            <div class="status-pill" id="statusPill">
+                <span></span>
+                Ready
+            </div>
+
+        </header>
+
+
+        <!-- SETUP -->
+        <section class="card setup-card">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Library setup</h2>
+
+                    <p>
+                        Select your Spotify playlist export and local music folder.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="setup-grid">
+
+                <!-- CSV -->
+                <div class="input-group">
+
+                    <label>SPOTIFY PLAYLIST CSV</label>
+
+                    <div class="input-row">
+
+                        <input
+                            id="csvName"
+                            type="text"
+                            placeholder="Select your Spotify CSV..."
+                            readonly
+                        >
+
+                        <button
+                            class="secondary"
+                            id="csvButton"
+                        >
+                            Choose CSV
+                        </button>
+
+                    </div>
+
+                    <input
+                        type="file"
+                        id="csvInput"
+                        accept=".csv"
+                        hidden
+                    >
+
+                </div>
+
+
+                <!-- MUSIC FOLDER -->
+                <div class="input-group">
+
+                    <label>LOCAL MUSIC FOLDER</label>
+
+                    <div class="input-row">
+
+                        <input
+                            id="folderName"
+                            type="text"
+                            placeholder="Select your music folder..."
+                            readonly
+                        >
+
+                        <button
+                            class="secondary"
+                            id="folderButton"
+                        >
+                            Choose folder
+                        </button>
+
+                    </div>
+
+                    <input
+                        type="file"
+                        id="folderInput"
+                        webkitdirectory
+                        directory
+                        multiple
+                        hidden
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="info">
+
+                <div class="info-icon">
+                    i
+                </div>
+
+                <span>
+                    Your music files are never uploaded. The app only reads
+                    filenames from the selected folder.
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- RESTORE SESSION BANNER -->
+        <section
+            class="card restore-banner"
+            id="restoreBanner"
+            hidden
+        >
+
+            <div class="restore-text">
+
+                <strong id="restoreTitle">
+                    Previous scan available
+                </strong>
+
+                <span id="restoreSubtitle">
+                </span>
+
+            </div>
+
+            <div class="restore-actions">
+
+                <button
+                    class="primary"
+                    id="restoreButton"
+                >
+                    Restore results
+                </button>
+
+                <button
+                    class="secondary"
+                    id="dismissRestoreButton"
+                >
+                    Dismiss
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ACTIONS -->
+        <div class="actions">
+
+            <button
+                class="primary"
+                id="scanButton"
+            >
+                <span>▶</span>
+                Scan library
+            </button>
+
+            <button
+                class="secondary"
+                id="missingButton"
+                disabled
+            >
+                Export missing CSV
+            </button>
+
+            <button
+                class="secondary"
+                id="allButton"
+                disabled
+            >
+                Export all results
+            </button>
+
+            <div
+                class="scan-status"
+                id="scanStatus"
+            >
+                Ready to scan
+            </div>
+
+        </div>
+
+
+        <!-- SCAN PROGRESS -->
+        <div
+            class="progress-track"
+            id="progressTrack"
+            hidden
+        >
+
+            <div
+                class="progress-fill"
+                id="progressFill"
+            ></div>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    <span class="dot green"></span>
+                    FOUND
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="foundCount"
+                >
+                    0
+                </div>
+
+                <div class="stat-description">
+                    Already in your library
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    <span class="dot yellow"></span>
+                    POSSIBLE
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="possibleCount"
+                >
+                    0
+                </div>
+
+                <div class="stat-description">
+                    Need a quick check
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    <span class="dot red"></span>
+                    MISSING
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="missingCount"
+                >
+                    0
+                </div>
+
+                <div class="stat-description">
+                    Not found in library
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RESULTS -->
+        <section class="card results-card">
+
+            <div class="results-header">
+
+                <div>
+                    <h2>Unresolved tracks</h2>
+
+                    <p>
+                        Only possible matches and missing songs are shown.
+                    </p>
+                </div>
+
+                <span id="resultCount">
+                    0 tracks
+                </span>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>STATUS</th>
+
+                            <th>TRACK</th>
+
+                            <th>ARTIST</th>
+
+                            <th>MATCH</th>
+
+                            <th>LOCAL FILE</th>
+
+                            <th>SPOTIFY</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="resultsBody">
+
+                        <tr>
+
+                            <td colspan="6">
+
+                                <div class="empty">
+
+                                    <div class="empty-icon">
+                                        ♫
+                                    </div>
+
+                                    <strong>
+                                        No scan results yet
+                                    </strong>
+
+                                    <span>
+                                        Select your playlist and music folder,
+                                        then scan your library.
+                                    </span>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="app.js"></script>
+
+</body>
+</html>
